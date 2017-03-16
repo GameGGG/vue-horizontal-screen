@@ -15,7 +15,7 @@
 /**
  *  引入导航组件Nav  右边工具组件ToolsBar  Loading组件
  */
-import KeyBoard from 'vue-keyboard';
+import KeyBoard from 'vue-keyboard-wg';
 import Nav from '@/components/Nav';
 import ToolsBar from '@/components/ToolsBar';
 import Loading from '@/components/Loading';
