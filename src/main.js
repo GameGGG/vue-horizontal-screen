@@ -9,7 +9,7 @@ Vue.config.productionTip = false
 import store from './store/'
 import './until/rem.js';
 import './until/horizontal.js';
-
+import './css/base.css';
 
 
 /* eslint-disable no-new */

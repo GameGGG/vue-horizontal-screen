@@ -30,6 +30,7 @@ export default {
   }
   nav>div{
       height:25%;
+      border-bottom:2px solid #3b405a;
       box-sizing:border-box;
       padding:0.2rem;
   }

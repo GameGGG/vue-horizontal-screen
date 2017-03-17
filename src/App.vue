@@ -2,9 +2,7 @@
     <div id="app">
         <NavC :active='navList'></NavC>
         <div id="wapper">
-            {{ keyBoardValue }}
             <Loading :flag="isLoading"></Loading>
-            <KeyBoard v-model="keyBoardValue"></KeyBoard>
             <router-view></router-view>
         </div>
         <ToolsBar></ToolsBar>
@@ -64,5 +62,6 @@ html,body{
 #wapper{
     flex:1;
     margin:0 0.2rem;
+    overflow:hidden;
 }
 </style>
