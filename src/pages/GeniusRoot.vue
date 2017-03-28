@@ -5,7 +5,7 @@
             <menu class="navtwo_btn_active">版本先知</menu>
             <menu class="navtwo_btn_active">更多游戏</menu>
         </div>
-        <Swp>
+        <Swp style="margin-top:10px">
             <div style="background:aliceblue;"><img src="../assets/banner_01.png" style="width:100%;height:100%;"></div>
             <div style="background:green;">div2</div>
             <div style="background:yellow;">div3</div>

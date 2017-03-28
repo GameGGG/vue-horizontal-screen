@@ -1,6 +1,6 @@
 <template>
     <div :style="" id="swp_wt_swp">
-        <div :class="layoutClass" :style="computedScroll" ref="wg_swp_wapper">
+        <div :class="layoutClass" :style="styleHandler" ref="wg_swp_wapper">
             <slot></slot>
         </div>
         <div class="swiper-left-btn"></div>
@@ -43,6 +43,8 @@
                 top:0;
                 left:0;
                 opacity:0;
+                width:100%;
+                height:100%;
             }
         }
     }
@@ -67,7 +69,7 @@
                 type:Object,
                 default:function(){
                     return {
-                        type:'scroll',
+                        type:'fade',
                         time:'1s',
                         timing:'ease-out'
                     }
@@ -75,16 +77,17 @@
             },
             loop:{
                 type:Boolean,
-                default:true
+                default:false
             }
         },
         data(){
             return{
-                bindStyles:{},                     // 绑定样式
+                bindStyles:{},                    // 绑定样式
                 layoutClass:'swiper-wapper-h',    // 布局类名
                 timerId:'',                       // 存储延时定时器id
                 soltNodeList:null,                // 挂载子组件集合
                 number:0,                         // 挂载子组件个数
+                swiperNumPre:0,                   // swiper上一张为第几页
                 swiperNum:0                       // swiper显示第几页
             }
         },
@@ -92,7 +95,6 @@
             // 挂载子组件挂载成功获取子组件节点
             this.soltNodeList = this.$refs.wg_swp_wapper;
             this.number = this.soltNodeList.children.length;
-
             // 判断布局类型
             this.layout(this.animation.type);
             // 判断是否需要克隆节点
@@ -103,6 +105,7 @@
         },
         methods:{
             next(){
+                this.swiperNumPre = this.swiperNum;
                 // 下一张
                 if(this.swiperNum < this.number-1){
                     this.swiperNum ++;
@@ -111,6 +114,7 @@
                 }
             },
             prev(){
+                this.swiperNumPre = this.swiperNum;
                 // 上一张
                 if(this.swiperNum > 0){
                     this.swiperNum --;
@@ -122,6 +126,9 @@
                 if(this.number <= 1) return;
                 this.timerId = setTimeout(() => {
                     this.next();
+                    if(this.animation.type === 'fade'){
+                        this.fadeHandler();
+                    }
                     this.start();
                 },this.time)
             },
@@ -135,22 +142,31 @@
                 this.number++;
             },
             layout(type){      // 根据轮播方式，决定布局方式
+                this.setAnimation();
                 switch(type){
-                    case 'fade': this.fadeHandler();break;      // 淡入淡出使用类名swiper-wapper-f
-                    case 'scroll': this.scrollHandler();break;
-                    default : scrollHandler();   // 默认布局方式使用类名 swiper-wapper-h
+                    case 'fade': this.layoutClass = "swiper-wapper-f";this.fadeInit();break;      // 淡入淡出使用类名swiper-wapper-f
+                    case 'scroll': this.hori === 'h' ? this.layoutClass = "swiper-wapper-h" : this.layoutClass = "swiper-wapper-z";break;
+                    default : this.layoutClass = "swiper-wapper-h";   // 默认布局方式使用类名 swiper-wapper-h
+                };
+
+            },
+            setAnimation(){
+                var transition = this.animationType();;
+                this.bindStyles = {       // 静态绑定样式
+                  transition
                 }
             },
             fadeHandler(){
-                this.layoutClass = "swiper-wapper-f"; // 设置类名布局
-                //
+                this.soltNodeList.children[this.swiperNum].style.opacity = '1';
+                this.soltNodeList.children[this.swiperNumPre].style.opacity = ''
             },
-            scrollHandler(){
-                this.layoutClass = "swiper-wapper-h"; // 设置类名布局
-                // 绑定动态属性值
-                var transition = this.animationType();;
-                this.bindStyles = {       // 静态绑定样式
-                    transition
+            fadeInit(){
+                // 初始化淡入当初元素css  第一张默认透明度为1
+                this.soltNodeList.children[this.swiperNum].style.opacity = '1';
+                for(let i in this.computedFade){    // 初始化每张的动画效果
+                    for(let j = 0;j<this.number;j++){
+                        this.soltNodeList.children[j].style[i] = this.computedFade[i];
+                    }
                 }
             }
         },
@@ -177,7 +193,15 @@
                 }
             },
             computedFade(){
-
+                var obj = this.bindStyles;
+                return obj;
+            },
+            styleHandler(){
+                if(this.animation.type === 'scroll'){
+                    return this.computedScroll;
+                }else{
+                    return '';
+                }
             }
         }
     }

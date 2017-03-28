@@ -8,9 +8,6 @@ exports.assetsPath = function (_path) {
     : config.dev.assetsSubDirectory
   return path.posix.join(assetsSubDirectory, _path)
 }
-exports.imgPath = function(_path){
-  return path.posix.join(config.imgSrc.assetsSubDirectory, _path)
-}
 exports.cssLoaders = function (options) {
   options = options || {}
 
@@ -63,7 +60,9 @@ exports.styleLoaders = function (options) {
   var output = []
   var loaders = exports.cssLoaders(options)
   for (var extension in loaders) {
+
     var loader = loaders[extension]
+
     output.push({
       test: new RegExp('\\.' + extension + '$'),
       use: loader
