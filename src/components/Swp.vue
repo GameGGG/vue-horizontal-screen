@@ -12,7 +12,7 @@
     #swp_wt_swp{
         overflow:hidden;
         width:100%;
-        height:5rem;
+        height:100%;
         font-size:0.3rem;
         color:red;
         .swiper-wapper-h{
@@ -22,6 +22,7 @@
             flex-direction:row;
             div{
                 flex:1 !important;
+                overflow:hidden;
             }
         }
         .swiper-wapper-z{
@@ -29,8 +30,8 @@
             display:-webkit-flex;
             flex-direction:column;
             div{
-              flex:1;
-              font-size:100px;
+                flex:1 !important;
+                overflow:hidden;
             }
         }
 
@@ -53,7 +54,7 @@
 <script>
     export default{
         props:{
-            styles:{
+            style:{
                 type:String,Object,
                 default:''
             },
@@ -62,8 +63,8 @@
                 default:'h'
             },
             time:{
-                type:Number,
-                default:5000
+                type:String,
+                default:'5000'
             },
             animation:{
                 type:Object,
@@ -76,8 +77,8 @@
                 }
             },
             loop:{
-                type:Boolean,
-                default:false
+                type:String,
+                default:'false'
             }
         },
         data(){
@@ -98,7 +99,7 @@
             // 判断布局类型
             this.layout(this.animation.type);
             // 判断是否需要克隆节点
-            if(this.loop){
+            if(this.loop === "true"){
                 this.cloneNode();
             }
             this.start();
@@ -111,6 +112,9 @@
                     this.swiperNum ++;
                 }else{
                     this.swiperNum = 0;
+                    if(this.loop === "true" && this.animation.type === "scroll"){
+                        setTimeout(() => {this.next()},100);
+                    }
                 }
             },
             prev(){
@@ -133,7 +137,7 @@
                 },this.time)
             },
             animationType(){        // 动画效果处理
-                var result = "all " + (this.animation.time || '1s') + " " + this.animation.timing + "";
+                var result = "transform " + (this.animation.time || '1s') + " " + this.animation.timing + "";
                 return result;
             },
             cloneNode(){        // 克隆第一个节点，用做无缝轮播
@@ -151,7 +155,7 @@
 
             },
             setAnimation(){
-                var transition = this.animationType();;
+                var transition = this.animationType();
                 this.bindStyles = {       // 静态绑定样式
                   transition
                 }
@@ -177,7 +181,8 @@
                         width = '',       // swiper wapper的宽度
                         height = '',      // swiper wapper的高度
                         t = -this.swiperNum/length*100 + '%',   // 每次位移量
-                        transform = this.hori === 'h' ? 'translateX('+t+')' : 'translateY('+t+')';
+                        transform = this.hori === 'h' ? 'translateX('+t+')' : 'translateY('+t+')',
+                        obj;
                     if(this.hori === 'h'){          // 横屏滚动样式
                         transform = 'translateX('+t+')';
                         width = length*100 + "%";
@@ -187,8 +192,10 @@
                         width = '100%';
                         height = length*100 + '%';
                     };
-                    console.log(this.bindStyles)
-                    var obj = { transform, width, height, ...this.bindStyles };
+                    obj = { transform, width, height, ...this.bindStyles };
+                    if(this.swiperNum == 0 && this.loop === "true" && this.animation.type === "scroll"){
+                        obj = { transform, width, height };
+                    }
                     return obj
                 }
             },

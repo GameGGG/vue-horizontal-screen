@@ -2,8 +2,8 @@
     <div id="app">
         <NavC :active='navList'></NavC>
         <div id="wapper">
-            <Loading :flag="isLoading"></Loading>
             <router-view></router-view>
+            <Loading :flag="isLoading"></Loading>
         </div>
         <ToolsBar></ToolsBar>
     </div>
@@ -23,6 +23,11 @@ export default {
         return {
             keyBoardValue:''
         }
+    },
+    mounted(){
+        setTimeout(() => {
+            this.$store.commit("newScroll")
+        },300)
     },
     computed:{
         isLoading(){    // 计算属性 获取仓库中loading状态
