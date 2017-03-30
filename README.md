@@ -3,6 +3,11 @@
 当页面强制横屏遇见了iscroll滑动
 ***
 
+	cd vue-horizontal-screen
+	npm install
+	npm run dev
+
+***
 ### library
 
 	- vue2
