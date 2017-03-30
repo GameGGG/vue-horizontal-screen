@@ -11,7 +11,6 @@ import './until/rem.js';
 import './until/horizontal.js';
 import './css/base.css';
 
-
 /* eslint-disable no-new */
 new Vue({
     el: '#app',

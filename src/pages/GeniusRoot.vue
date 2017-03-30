@@ -25,6 +25,7 @@
     .genius{
         position:relative;
         width:100%;
+        border-bottom:1px solid transparent;
     }
     .navTwo{
         position:absolute;
@@ -82,7 +83,7 @@
     }
 
     .hot_question{
-        margin:10px 0 20px;
+        margin:10px 0 10px;
         width:100%;
         display:flex;
         display:-webkit-flex;
@@ -132,7 +133,7 @@
                 amount:false
             })
             this.$store.dispatch('getHotQuestion');
-            this.$store.commit('refrenshScroll');
+            this.$store.dispatch('newScroll');
         },
         updated(){
             this.$store.commit('refrenshScroll');

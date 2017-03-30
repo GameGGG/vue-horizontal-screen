@@ -26,7 +26,7 @@ export default {
     },
     mounted(){
         setTimeout(() => {
-            this.$store.commit("newScroll")
+            this.$store.dispatch("newScroll")
         },300)
     },
     computed:{
@@ -65,8 +65,12 @@ html,body{
     background:url(./assets/background.png) repeat;
 }
 #wapper{
+    position:relative;
     flex:1;
     margin:0 0.2rem;
     overflow:hidden;
+}
+.iScrollIndicator{
+    border:none !important;
 }
 </style>
