@@ -19,6 +19,9 @@
                 type:'navListHandler',
                 amount:3
             })
+        },
+        mounted(){
+            this.$store.commit('refrenshScroll');
         }
     }
 </script>

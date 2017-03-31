@@ -14,7 +14,7 @@ import Scroll from 'iscroll';
      },
      newScroll(content){
          if(content.state.Scroll){
-           content.state.Scroll = null;
+           content.state.Scroll.destroy();
          }
          content.state.Scroll = new Scroll("#wapper",{
              scrollbars: true,

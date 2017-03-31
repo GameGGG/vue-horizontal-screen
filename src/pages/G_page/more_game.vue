@@ -13,14 +13,13 @@
                 msg:'hello vue'
             }
         },
-        beforeCreate(){
+        activated(){
             this.$store.commit({
-                type:'navListHandler',
-                amount:2
-            })
+                type:'isLoadingHandler',
+                amount:false
+            });
         },
-        mounted(){
-            this.$store.commit('refrenshScroll');
+        components:{
         }
     }
 </script>

@@ -10,17 +10,13 @@
     export default{
         data(){
             return{
-                msg:'hello vue'
             }
         },
-        beforeCreate(){
+        activated(){
             this.$store.commit({
-                type:'navListHandler',
-                amount:2
-            })
-        },
-        mounted(){
-            this.$store.commit('refrenshScroll');
+                type:'isLoadingHandler',
+                amount:false
+            });
         }
     }
 </script>
