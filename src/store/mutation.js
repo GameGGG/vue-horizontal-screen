@@ -13,11 +13,14 @@
     setHotQuestion(state,opt){
         state.hotQuestion = opt.value;
     },
-    refrenshScroll(state){
+    refrenshScroll(state){    // 刷新iscroll
         if(!state.Scroll) return;
         setTimeout(() => {
             state.Scroll.refresh();
         },500)
+    },
+    gameHelpListView(state){
+        state.gameHelpQuestionShow = !state.gameHelpQuestionShow;
     }
 }
 

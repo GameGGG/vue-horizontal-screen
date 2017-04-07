@@ -2,7 +2,9 @@
     <div id="app">
         <NavC :active='navList'></NavC>
         <div id="wapper">
-            <router-view></router-view>
+            <transition name="fade">
+                <router-view></router-view>
+            </transition>
             <Loading :flag="isLoading"></Loading>
         </div>
         <ToolsBar></ToolsBar>
@@ -72,5 +74,14 @@ html,body{
 }
 .iScrollIndicator{
     border:none !important;
+}
+.fade-enter-active, .fade-leave-active {
+    transition: transform .5s
+}
+.fade-enter{
+    transform:translateX(100%)
+}
+.fade-leave-to{
+    transform:translateX(-100%)
 }
 </style>

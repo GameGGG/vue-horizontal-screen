@@ -1,19 +1,21 @@
 <template>
     <div class="genius">
-        <ul class="navTwo" ref="pageTitle">
-            <li :class="pagesTitle[0]" data-n='0' ref="test">游戏帮助</li>
+        <ul class="navTwo" ref="pageTitle" v-show="!isQuestionList">
+            <li :class="pagesTitle[0]" data-n='0'>游戏帮助</li>
             <li :class="pagesTitle[1]" data-n='1'>版本先知</li>
             <li :class="pagesTitle[2]" data-n='2'>更多游戏</li>
         </ul>
         <keep-alive>
-            <component :is="jumpPage"></component>
+            <component :is="jumpPage" v-show="!isQuestionList"></component>
         </keep-alive>
-
+        <div v-show="isQuestionList"></div>
     </div>
 </template>
 <style scoped>
     .genius{
-        position:relative;
+        position:absolute;
+        top:0;
+        left:0;
         width:100%;
         border-bottom:1px solid transparent;
     }
@@ -62,7 +64,7 @@
         flex:1;
         border:1px solid #3b405a;
         border-bottom:none;
-        background-size:100%;
+        background-size:100% !important;
         background:#14141e;
         text-align:center;
     }
@@ -78,6 +80,7 @@
     import gameHelp from './G_page/game_help';
     import newVersion from './G_page/new_version';
     import moreGame from './G_page/more_game';
+    import questionView from './G_page/question_view';
     export default{
         data(){
             return{
@@ -102,11 +105,16 @@
                 type:'isLoadingHandler',
                 amount:false
             })
-            this.$store.dispatch('getHotQuestion');
-            this.$store.dispatch('newScroll');
 
+            this.$store.dispatch('newScroll');
             this.$refs.pageTitle.addEventListener('tap',this.tapPagesTitleHandler,false)
 
+        },
+        beforeUpdata(){
+            this.$store.commit({
+                type:'isLoadingHandler',
+                amount:true
+            });
         },
         updated(){
             this.$store.commit('refrenshScroll');  //  每次组件更新都重新计算iscroll的高度
@@ -125,22 +133,22 @@
                     case 2: str = 'moreGame';break;
                 }
                 return str
+            },
+            isQuestionList(){
+                return this.$store.state.gameHelpQuestionShow;
             }
 
         },
         methods:{
             tapPagesTitleHandler(e){
-                this.$store.commit({
-                    type:'isLoadingHandler',
-                    amount:true
-                });
                 this.pages = parseInt(e.target.getAttribute('data-n'))
             }
         },
         components:{
             gameHelp,
             newVersion,
-            moreGame
+            moreGame,
+            questionView
         }
 
     }

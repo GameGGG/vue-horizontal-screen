@@ -12,6 +12,7 @@ import mutations from './mutation.js'
 import actions from './actions.js'
 
 const state = {
+  gameHelpQuestionShow:false, // 现实游戏帮组中问题的详细信息(true为显示，false为不显示)
   Scroll:'',          // 滑动管理
   hotQuestion:[],     // 热门问题
   isLoading:true,     // 是否显示loading,默认为true
